@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: -3647000954445780278}
   - component: {fileID: 6068533163058268801}
   - component: {fileID: -6178267476288523817}
+  - component: {fileID: 154264458}
   m_Layer: 0
   m_Name: Enemy_Prefab
   m_TagString: Untagged
@@ -216,7 +217,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731725860333804978}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e409968200f6bdc4c97635eb368264f7, type: 3}
   m_Name: 
@@ -238,6 +239,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8c4bbc3ca2dc44e99d867fe8df43b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &154264458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731725860333804978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d373188d7c743c41b313900ac6b9672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5
+  angle: 165
+  playerRef: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 128
+  canSeePlayer: 0
 --- !u!1 &1396004782475578456
 GameObject:
   m_ObjectHideFlags: 0
