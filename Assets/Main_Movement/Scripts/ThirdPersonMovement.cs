@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
     public CharacterController controller;
     public Camera cam;
+    public float walkSpeed;
+    public float runSpeed;
     public float speed;
-    public float turnSmoothTime = 0.1f;
+    public float turnSmoothTime;
     float turnSmoothVelocity;
+
+    float walkBlendTreePrameter;
+
 
     private Animator anim;
 
@@ -57,18 +63,28 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void Idle()
     {
-        anim.SetFloat("Speed", 0);
+        DOTween.To(() => walkBlendTreePrameter, x => {
+            walkBlendTreePrameter = x;
+            speed = walkSpeed;
+            anim.SetFloat("Speed", walkBlendTreePrameter);
+        }, 0f, 0.5f);
+
+       
     }
 
     private void Walk()
     {
-        speed = 2f;
-        anim.SetFloat("Speed", 0.5f);
+        DOTween.To(() => walkBlendTreePrameter, x => {
+            walkBlendTreePrameter = x;
+            speed = walkSpeed;
+            anim.SetFloat("Speed", walkBlendTreePrameter);
+            }, 0.5f, 0.5f);
+        
     }
 
     private void Run()
     {
-        speed = 5f;
+        speed = runSpeed;
         anim.SetFloat("Speed",1f);
     }
 }
