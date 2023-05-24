@@ -44,6 +44,7 @@ public class EnemyPatrol : MonoBehaviour
         else
         {
             agent.SetDestination(originalPoint);
+            isOnTheWay = true;
         }
     }
 

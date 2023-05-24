@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   centrePoint: {fileID: 0}
-  range: 10
+  range: 15
   patrolCoolDownTime: 5
   isOnTheWay: 0
 --- !u!114 &-6178267476288523817
