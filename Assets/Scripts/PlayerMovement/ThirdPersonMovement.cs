@@ -46,8 +46,8 @@ namespace StarterAssets
         public float BottomClamp = -30.0f;
         public float CameraAngleOverride = 0.0f;
         public bool LockCameraPosition = false;
-        [Range(0,1)]
-        public float LookSensitivity = 1;
+        [Range(1,2)]
+        public float LookSensitivity = 2;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -120,7 +120,7 @@ namespace StarterAssets
         private void GravityChecker()
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
+                
             if (isGrounded && velocity.y < 0)
             {
                 velocity.y = -2f;
@@ -138,23 +138,23 @@ namespace StarterAssets
 
                 if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-                float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+                //float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
-                float speedOffset = 0.1f;
+                //float speedOffset = 0.1f;
 
-                if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-                    currentHorizontalSpeed > targetSpeed + speedOffset)
-                {
+                //if (currentHorizontalSpeed < targetSpeed - speedOffset ||
+                //    currentHorizontalSpeed > targetSpeed + speedOffset)
+                //{
 
-                    _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
-                        Time.deltaTime * SpeedChangeRate);
+                //    _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
+                //        Time.deltaTime * SpeedChangeRate);
 
-                    _speed = Mathf.Round(_speed * 1000f) / 1000f;
-                }
-                else
-                {
+                //    _speed = Mathf.Round(_speed * 1000f) / 1000f;
+                //}
+                //else
+                //{
                     _speed = targetSpeed;
-                }
+                //}
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;

@@ -64,6 +64,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
             starterAssetsInputs.shoot = false;
         }
+        else
+        {
+            starterAssetsInputs.shoot = false;
+        }
 
     }
 

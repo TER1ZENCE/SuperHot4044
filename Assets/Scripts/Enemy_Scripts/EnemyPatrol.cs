@@ -7,37 +7,43 @@ public class EnemyPatrol : MonoBehaviour
     public NavMeshAgent agent;
     public Transform centrePoint;
     public float range;
+    private Vector3 originalPoint;
 
     public float patrolCoolDownTime;
     public bool isOnTheWay;
 
     void Start()
     {
+        originalPoint = transform.position;
         centrePoint = gameObject.transform;
         agent = GetComponent<NavMeshAgent>();
+        StartCoroutine(FollowTheNextPosition());
     }
 
 
     void Update()
     {
-        Debug.Log(patrolCoolDownTime);
-        patrolCoolDownTime += Time.deltaTime;
-
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (isOnTheWay && agent.remainingDistance <= 0)
         {
+            isOnTheWay = false;
           StartCoroutine(FollowTheNextPosition());
         }
     }
 
     private void GoToTarget()
     {
+        Debug.Log(originalPoint);
         Vector3 point;
         if (RandomPoint(centrePoint.position, range, out point))
         {
-            patrolCoolDownTime = 0;
+            originalPoint = transform.position;
             isOnTheWay = true;
             Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
             agent.SetDestination(point);
+        }
+        else
+        {
+            agent.SetDestination(originalPoint);
         }
     }
 
