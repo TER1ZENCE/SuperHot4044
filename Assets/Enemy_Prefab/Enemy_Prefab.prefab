@@ -223,10 +223,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
+  centrePoint: {fileID: 0}
   range: 10
   patrolCoolDownTime: 5
-  patrolTimer: 0
-  centrePoint: {fileID: 0}
+  isOnTheWay: 0
 --- !u!114 &-6178267476288523817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +260,7 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 128
+  enemyMovement: {fileID: 0}
   canSeePlayer: 0
 --- !u!1 &1396004782475578456
 GameObject:
@@ -1073,7 +1074,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -6153663081527216589, guid: 3f31845c057fb224da4bffabef85153f, type: 3}
+  m_Mesh: {fileID: -6153663081527216589, guid: e9c8216d2c6902248b80510f450e6085, type: 3}
   m_Bones:
   - {fileID: 7338711937076971070}
   - {fileID: 2773765092892393170}
