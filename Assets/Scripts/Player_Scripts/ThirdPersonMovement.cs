@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -72,6 +73,7 @@ namespace StarterAssets
 
         private const float _threshold = 0.01f;
         private bool _hasAnimator;
+        private bool action;
 
         private void Awake()
         {
@@ -95,6 +97,7 @@ namespace StarterAssets
         {
             GravityChecker();
             Move();
+            CheckTimeScale();
         }
 
         private void LateUpdate()
@@ -117,6 +120,23 @@ namespace StarterAssets
                 _cinemachineTargetYaw, 0.0f);   
         }
 
+        private void CheckTimeScale()
+        {
+            float time = _input.move.magnitude > 0.1 ? 1f : .03f;
+            float lerpTime = _input.move.magnitude > 0.1 ? .05f : .5f;
+            time = action ? 1 : time;
+            lerpTime = action ? .1f : lerpTime;
+            Time.timeScale = Mathf.Lerp(Time.timeScale, time, lerpTime);
+        }
+
+        public IEnumerator ActionE()
+        {
+            action = true;
+            yield return new WaitForSecondsRealtime(.03f);
+            action = false;
+        }
+
+
         private void GravityChecker()
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -136,25 +156,12 @@ namespace StarterAssets
         {
                 float targetSpeed = _input.sprint ? runSpeed : walkSpeed;
 
-                if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-
-                //float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-                //float speedOffset = 0.1f;
-
-                //if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-                //    currentHorizontalSpeed > targetSpeed + speedOffset)
-                //{
-
-                //    _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
-                //        Time.deltaTime * SpeedChangeRate);
-
-                //    _speed = Mathf.Round(_speed * 1000f) / 1000f;
-                //}
-                //else
-                //{
+                if (_input.move == Vector2.zero)
+            {
+                targetSpeed = 0.0f;
+                action = false;
+            }
                     _speed = targetSpeed;
-                //}
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
@@ -164,6 +171,7 @@ namespace StarterAssets
 
                 if (_input.move != Vector2.zero)
                 {
+                action = true;
                     _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                       _mainCamera.transform.eulerAngles.y;
                     float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,

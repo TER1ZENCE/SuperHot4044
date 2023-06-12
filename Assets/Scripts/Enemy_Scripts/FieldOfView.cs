@@ -10,28 +10,34 @@ public class FieldOfView : MonoBehaviour
     public float angle;
 
 
-    public GameObject playerRef;
-    public LayerMask targetMask;
-    public LayerMask obstructionMask;
-    public EnemyMovement enemyMovement;
+     public GameObject playerRef;
+    [SerializeField] private LayerMask targetMask;
+    [SerializeField] private LayerMask obstructionMask;
+    [SerializeField] private EnemyMovement enemyMovement;
+    [SerializeField] private EnemyPatrol enemyPatrol;
+    [SerializeField] private Animator animator;
 
-    public bool canSeePlayer;
+
+    [SerializeField] private int baseMovementLayerIndex;
+    [SerializeField] private int aimingLayerIndex;
+
+    public bool seesAPlayer;
+    public bool waitBeforeLosingTarget;
+    public bool isInAimState;
 
     private void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
         enemyMovement = GetComponent<EnemyMovement>();
-        StartCoroutine(FOVRoutine());
-;    }
+        enemyPatrol = GetComponent<EnemyPatrol>();
+        animator = GetComponent<Animator>();
+        baseMovementLayerIndex = animator.GetLayerIndex("Base Movement");
+        aimingLayerIndex = animator.GetLayerIndex("Aim Movement");
+        ;    }
 
-    private IEnumerator FOVRoutine()
+    private void Update()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
-        while (true) 
-        {
-            yield return wait;
-            FieldOfViewCheck();
-        }
+        FieldOfViewCheck();
     }
 
     private void FieldOfViewCheck()
@@ -49,18 +55,47 @@ public class FieldOfView : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
-                    canSeePlayer = true;
+                    animator.SetLayerWeight(aimingLayerIndex, Mathf.Lerp(animator.GetLayerWeight(aimingLayerIndex), 1f, Time.deltaTime * 10f));
+                    animator.SetLayerWeight(baseMovementLayerIndex, Mathf.Lerp(animator.GetLayerWeight(baseMovementLayerIndex), 0f, Time.deltaTime * 1f));
+
+                    seesAPlayer = true;
+                    enemyPatrol.canPatroling = false;
                     enemyMovement.AttackTarget(playerRef.transform);
                 }
                 else
-                    canSeePlayer = false;
+                {
+                    animator.SetLayerWeight(aimingLayerIndex, Mathf.Lerp(animator.GetLayerWeight(aimingLayerIndex), 0f, Time.deltaTime * 10f));
+                    animator.SetLayerWeight(baseMovementLayerIndex, Mathf.Lerp(animator.GetLayerWeight(baseMovementLayerIndex), 1f, Time.deltaTime * 200f));
+                    seesAPlayer = false;
+                    enemyPatrol.canPatroling = true;
+                    isInAimState = false;
+                }
             }
             else
-                canSeePlayer = false;
+            {
+                animator.SetLayerWeight(aimingLayerIndex, Mathf.Lerp(animator.GetLayerWeight(aimingLayerIndex), 0f, Time.deltaTime * 10f));
+                animator.SetLayerWeight(baseMovementLayerIndex, Mathf.Lerp(animator.GetLayerWeight(baseMovementLayerIndex), 1f, Time.deltaTime * 200f));
+                seesAPlayer = false;
+                enemyPatrol.canPatroling = true;
+                isInAimState = false;
+            }
         }
-        else if (canSeePlayer)
+        else if (seesAPlayer)
         {
-            canSeePlayer = false;
+            enemyMovement.AttackTarget(playerRef.transform);
+            waitBeforeLosingTarget = true;
+            if (waitBeforeLosingTarget)
+                StartCoroutine(WaitBeforeLosing());
         }
+
+    }
+
+    private IEnumerator WaitBeforeLosing()
+    {
+        yield return new WaitForSeconds(5f);
+        seesAPlayer = false;
+        waitBeforeLosingTarget = false;
+        enemyPatrol.canPatroling = true;
+        isInAimState = false;
     }
 }

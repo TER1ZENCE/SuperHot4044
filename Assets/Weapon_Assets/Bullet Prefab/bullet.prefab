@@ -112,8 +112,8 @@ Transform:
   m_GameObject: {fileID: 7421046989788390520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.706, y: 0.208, z: 3.294}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.24, y: 0.24, z: 0.24}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 33927192404465665}
   m_Father: {fileID: 0}
@@ -143,7 +143,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421046989788390520}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.03, y: 0.03, z: 0.1}
@@ -212,7 +212,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.026313838
+        value: 0.00511688
         inSlope: 0
         outSlope: 0
         tangentMode: 0

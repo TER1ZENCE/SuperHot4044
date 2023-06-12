@@ -4,35 +4,42 @@ using UnityEngine.AI;
 
 public class EnemyPatrol : MonoBehaviour 
 {
-    public NavMeshAgent agent;
+    [SerializeField] NavMeshAgent agent;
     public Transform centrePoint;
-    public float range;
-    private Vector3 originalPoint;
+    [SerializeField] float range;
+    [SerializeField] private Vector3 originalPoint;
+    [SerializeField] EnemyController enemyController;
 
     public float patrolCoolDownTime;
     public bool isOnTheWay;
+    public bool canPatroling;
 
     void Start()
     {
+        canPatroling = true;
         originalPoint = transform.position;
         centrePoint = gameObject.transform;
         agent = GetComponent<NavMeshAgent>();
+        enemyController = GetComponent<EnemyController>();
         StartCoroutine(FollowTheNextPosition());
     }
 
 
     void Update()
     {
-        if (isOnTheWay && agent.remainingDistance <= 0)
+        if(canPatroling && !enemyController.isDeath)
         {
-            isOnTheWay = false;
-          StartCoroutine(FollowTheNextPosition());
+            if (isOnTheWay && agent.remainingDistance <= 0)
+            {
+                isOnTheWay = false;
+                StartCoroutine(FollowTheNextPosition());
+            }
         }
+
     }
 
     private void GoToTarget()
     {
-        Debug.Log(originalPoint);
         Vector3 point;
         if (RandomPoint(centrePoint.position, range, out point))
         {
