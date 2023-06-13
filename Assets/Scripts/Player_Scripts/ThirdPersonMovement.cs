@@ -37,7 +37,7 @@ namespace StarterAssets
         public float groundDistance = 0.5f;
         public LayerMask groundMask;
         private Vector3 velocity;
-        private bool isGrounded;
+        [SerializeField] private bool isGrounded;
 
 
         [Space(10)]
@@ -49,6 +49,22 @@ namespace StarterAssets
         public bool LockCameraPosition = false;
         [Range(1,2)]
         public float LookSensitivity = 2;
+
+        [Space(10)]
+        [Header("Crouching Or Sprinting")]
+        private bool isCrouching;
+        private bool isSprinting;
+
+
+        [Space(10)]
+        [Header("Audio")]
+        [SerializeField] private AudioSource footStepsAudioSource;
+        [SerializeField] private AudioClip[] concreteStepsClips;
+        [SerializeField] private float baseStepSpeed = 0.5f;
+        [SerializeField] private float crouchStepMultiplier = 0.6f;
+        [SerializeField] private float sprintStepMultiplier =0.6f;
+        private float footStepTimer = 0f;
+        public float GetCurrentOffset => isCrouching ? baseStepSpeed * crouchStepMultiplier : isSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -95,6 +111,7 @@ namespace StarterAssets
 
         void Update()
         {
+
             GravityChecker();
             Move();
             CheckTimeScale();
@@ -192,16 +209,35 @@ namespace StarterAssets
 
             if (_input.move != Vector2.zero && !_input.sprint)
             {
+                if(!isCrouching)
+                isCrouching = true;
+
+                if (isSprinting)
+                    isSprinting = false;
+
                 Walk();
             }
             else if (_input.move != Vector2.zero && _input.sprint)
             {
+                if (!isSprinting)
+                    isSprinting = true;
+
+                if (isCrouching)
+                    isCrouching = false;
+
                 Run();
             }
             else if (_input.move == Vector2.zero)
             {
+                if (isSprinting)
+                    isSprinting = false;
+
+                if (!isCrouching)
+                    isCrouching = true;
+
                 Idle();
             }
+            Handle_Footsteps();
         }
 
         public void SetRotateOnMove(bool newRotateOnMove)
@@ -242,6 +278,29 @@ namespace StarterAssets
                 speed = runSpeed;
                 _animator.SetFloat("Speed", walkBlendTreePrameter);
             }, 1f, 0.5f);
+        }
+
+        private void Handle_Footsteps()
+        {
+            if (!isGrounded) return;
+            if (_input.move == Vector2.zero) return;
+
+            footStepTimer -= Time.deltaTime;
+
+            if (footStepTimer <= 0)
+            {
+                if (Physics.Raycast(gameObject.transform.position, Vector3.down, out RaycastHit hit, 3) )
+                {
+                    switch (hit.collider.tag)
+                    {
+                        case "Footsteps/CONCRETE":
+                            footStepsAudioSource.PlayOneShot(concreteStepsClips[Random.Range(0, concreteStepsClips.Length - 1)]);
+                            break;
+                    }
+                }
+            }
+
+            footStepTimer = GetCurrentOffset;
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

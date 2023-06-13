@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletProjectile : MonoBehaviour
 {
     private Rigidbody bulletRigidBody;
-    [SerializeField] private float speed = 40f;
+    [SerializeField] private float speed = 20f;
     PlayerController playerController;
     EnemyController enemyController;
 

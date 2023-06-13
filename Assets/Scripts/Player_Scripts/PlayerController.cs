@@ -5,15 +5,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    [SerializeField] private bool isDeath;
-
     [Header("References")]
     [Space(5)]
     public GunGrabbable gunGrabbable;
     [SerializeField] ThirdPersonShooterController thirdPersonShooterController;
     [SerializeField] PickUpDrop pickUpDrop;
     [SerializeField] RagdollManager ragdollManager;
+
+    [Header("IsDeath?")]
+    [Space(5)]
+    public bool isDeath;
+
+    [Space(10)]
+    [Header("Audio")]
+    public AudioSource playerAudioSource;
+    public AudioClip playerDeathClip;
 
     private void Start()
     {
@@ -34,6 +40,7 @@ public class PlayerController : MonoBehaviour
         {
             gunGrabbable.Drop(Camera.main.transform.forward, pickUpDrop.playerThrowForce);
         }
+        playerAudioSource.PlayOneShot(playerDeathClip);
         GetComponent<Animator>().enabled = false;
         GetComponent<ThirdPersonMovement>().enabled = false;
         GetComponent<ThirdPersonShooterController>().enabled = false;

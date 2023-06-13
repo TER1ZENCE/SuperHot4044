@@ -18,22 +18,28 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float enemyThrowForce;
     [SerializeField] private Transform playerTransform;
 
+    [Space(10)]
+    [Header("Audio")]
+    public AudioSource enemyAudioSource;
+    public AudioClip[] enemyDeathClips;
+
     public bool isDeath;
     public bool hasAGun;
 
     private void Start()
     {
+        enemyAudioSource = GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();   
         ragdollManager = GetComponent<RagdollManager>();
+
         CheckForWeapons();
-        if (gunGrabbable != null)
-        {
-            gunGrabbable.Pickup(this.transform);
-        }
 
         agent = GetComponent<NavMeshAgent>();
         ragdollManager.SetRigidbodyState(true, isDeath);
         ragdollManager.SetCollidersState(false);
+
+        if (gunGrabbable != null)
+            gunGrabbable.Pickup(this.transform);
     }
     public void Die()
     {
@@ -47,8 +53,10 @@ public class EnemyController : MonoBehaviour
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
             Vector3 directionToTarget = (playerTransform.position - transform.position).normalized;
-            gunGrabbable.Drop(directionToTarget,enemyThrowForce);
+            gunGrabbable.Drop(Camera.main.transform.position - gunGrabbable.transform.position,enemyThrowForce);
         }
+
+        enemyAudioSource.PlayOneShot(enemyDeathClips[Random.Range(0, enemyDeathClips.Length - 1)]);
 
         hasAGun = false;
         GetComponent<FieldOfView>().enabled = false;

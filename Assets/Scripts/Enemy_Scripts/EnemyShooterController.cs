@@ -10,7 +10,8 @@ public class EnemyShooterController : MonoBehaviour
     [Space(5)]
     [SerializeField] private GunGrabbable gunGrabbable;
     [SerializeField] private EnemyController enemyController;
-    [SerializeField] private Transform playerTransform;
+    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private FieldOfView fieldOfView;
 
     [Header("Shoot Delay")]
@@ -34,10 +35,15 @@ public class EnemyShooterController : MonoBehaviour
 
         if (canShoot)
         {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-            Vector3 directionToTarget = playerTransform.position + new Vector3(0,1.3f,0);
-            gunGrabbable.Shoot(directionToTarget);
-            lastShootTime = Time.time;
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerController = player.GetComponent<PlayerController>();
+
+            if (!playerController.isDeath)
+            {
+                Vector3 directionToTarget = player.transform.position + new Vector3(0, 1.3f, 0);
+                gunGrabbable.Shoot(directionToTarget);
+                lastShootTime = Time.time;
+            }
         }
     }
 

@@ -18,6 +18,12 @@ public class PickUpDrop : MonoBehaviour
     [SerializeField] private ThirdPersonShooterController thirdPersonShooterController;
     public Transform pistolPositionTransform;
 
+    [Space(10)]
+    [Header("Audio")]
+    public AudioSource pickupAudioSource;
+    public AudioClip pistolPickupClip;
+    public AudioClip pistolDropClip;
+
 
     private void Start()
     {
@@ -34,6 +40,7 @@ public class PickUpDrop : MonoBehaviour
                 if (gunGrabbable == null && raycastHit.transform.TryGetComponent(out gunGrabbable))
                 {
                     gunGrabbable.Pickup(this.transform);
+                    pickupAudioSource.PlayOneShot(pistolPickupClip);
                     thirdPersonShooterController.hasAGun = true;
                 }
             }
@@ -43,6 +50,7 @@ public class PickUpDrop : MonoBehaviour
             if (gunGrabbable != null)
             {
                 thirdPersonShooterController.SetNormalCamera();
+                pickupAudioSource.PlayOneShot(pistolDropClip);
                 gunGrabbable.Drop(Camera.main.transform.forward, playerThrowForce);
                 thirdPersonShooterController.hasAGun = false;
                 gunGrabbable = null;

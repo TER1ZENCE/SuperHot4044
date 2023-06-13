@@ -28,7 +28,12 @@ public class GunGrabbable : MonoBehaviour
     public float ammoCount;
     public bool hasAmmo;
 
-    private void Start()
+    [Space(10)]
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip[] pistolShotsClips;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
@@ -38,16 +43,20 @@ public class GunGrabbable : MonoBehaviour
         currentHolder = holder;
         FindChildTransformWithName(currentHolder, "PistolPosition");
         isPickedUp =true;
-        rb.isKinematic = true; 
-        GetComponent<Collider>().enabled = false;
-        transform.parent = pistolTransform;
-        transform.DOMove(pistolTransform.position, .25f).SetEase(Ease.OutBack).SetUpdate(true);    
-        transform.DORotateQuaternion(pistolTransform.rotation, .25f).SetUpdate(true);
+        rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
+        GetComponent<Collider>().enabled = false;
+
+        if(transform.parent != pistolTransform)
+        transform.parent = pistolTransform;
+
+        transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack).SetUpdate(true);
+        transform.DOLocalRotateQuaternion(Quaternion.identity, .25f).SetUpdate(true);
     }
 
     public void Drop(Vector3 throwDirection, float throwForce)
     {
+        Debug.Log("Gun is droped");
         isPickedUp = false;
         rb.isKinematic = false;
         transform.SetParent(null);
@@ -64,7 +73,7 @@ public class GunGrabbable : MonoBehaviour
         Vector3 aimDir = (direction - spawnBulletPosition.position).normalized;
 
         Instantiate(bullet, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-
+        audioSource.PlayOneShot(pistolShotsClips[Random.Range(0, pistolShotsClips.Length - 1)]);
         ammoCount--;
     }
 
@@ -90,26 +99,6 @@ public class GunGrabbable : MonoBehaviour
             if (childTransform.childCount > 0)
             {
                 FindChildTransformWithName(childTransform, targetName);
-            }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (isPickedUp && currentHolder == pistolTransform)
-        {
-            if (Vector3.Distance(transform.position, pistolTransform.position) > pickupDistanceThreshold)
-            {
-                //transform.position = Vector3.Lerp(transform.position, playerPistolTransform.position, Time.deltaTime * pickupSpeed);
-                //transform.rotation = Quaternion.Lerp(transform.rotation, playerPistolTransform.rotation, Time.deltaTime * pickupSpeed);
-            }
-            else
-            {
-                if (transform.position != pistolTransform.position && Vector3.Distance(transform.position, pistolTransform.position) < pickupDistanceThreshold)
-                {
-                    transform.position = pistolTransform.position;
-                    transform.rotation = pistolTransform.rotation;
-                }
             }
         }
     }
