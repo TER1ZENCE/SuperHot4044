@@ -61,9 +61,10 @@ namespace StarterAssets
         [SerializeField] private AudioSource footStepsAudioSource;
         [SerializeField] private AudioClip[] concreteStepsClips;
         [SerializeField] private float baseStepSpeed = 0.5f;
-        [SerializeField] private float crouchStepMultiplier = 0.6f;
-        [SerializeField] private float sprintStepMultiplier =0.6f;
+        [SerializeField] private float crouchStepMultiplier = 0.3f;
+        [SerializeField] private float sprintStepMultiplier = 0.6f;
         private float footStepTimer = 0f;
+        [SerializeField] private Transform groundTypeChecker;
         public float GetCurrentOffset => isCrouching ? baseStepSpeed * crouchStepMultiplier : isSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
 
         // cinemachine
@@ -106,6 +107,7 @@ namespace StarterAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
             _playerInput = GetComponent<PlayerInput>();
+            groundTypeChecker = GameObject.Find("PlayerCameraRoot").transform;
         }
 
 
@@ -188,6 +190,7 @@ namespace StarterAssets
 
                 if (_input.move != Vector2.zero)
                 {
+                Handle_Footsteps();
                 action = true;
                     _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                       _mainCamera.transform.eulerAngles.y;
@@ -202,7 +205,7 @@ namespace StarterAssets
 
                 Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
-                _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime)
+            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime)
                     + new Vector3(0f, velocity.y, 0f) * Time.deltaTime);
 
 
@@ -232,12 +235,11 @@ namespace StarterAssets
                 if (isSprinting)
                     isSprinting = false;
 
-                if (!isCrouching)
-                    isCrouching = true;
+                if (isCrouching)
+                    isCrouching = false;
 
                 Idle();
             }
-            Handle_Footsteps();
         }
 
         public void SetRotateOnMove(bool newRotateOnMove)
@@ -257,8 +259,6 @@ namespace StarterAssets
                 _animator.SetFloat("Speed", walkBlendTreePrameter);
             }, 0f, 0.5f);
         }
-
-
 
         private void Walk()
         {
@@ -289,7 +289,7 @@ namespace StarterAssets
 
             if (footStepTimer <= 0)
             {
-                if (Physics.Raycast(gameObject.transform.position, Vector3.down, out RaycastHit hit, 3) )
+                if (Physics.Raycast(groundTypeChecker.position, Vector3.down, out RaycastHit hit, 3) )
                 {
                     switch (hit.collider.tag)
                     {
@@ -298,9 +298,9 @@ namespace StarterAssets
                             break;
                     }
                 }
-            }
 
-            footStepTimer = GetCurrentOffset;
+                footStepTimer = GetCurrentOffset;
+            }
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

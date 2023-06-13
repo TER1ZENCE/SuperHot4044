@@ -134,8 +134,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void CheckShootState()
     {
-        CheckAmmoCount();
         gunGrabbable = GetComponentInChildren<GunGrabbable>();
+        gunGrabbable.CheckAmmoCount();
+        hasAmmo = gunGrabbable.hasAmmo;
 
         if (hasAGun && hasAmmo && isInAimState && Time.time - lastShootTime >= shootDelay)
             EnableShooting();
@@ -151,16 +152,16 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
     }
 
-    private void CheckAmmoCount()
-    {
-        gunGrabbable = GetComponentInChildren<GunGrabbable>();
-        if (gunGrabbable != null)
-        {
-            if (gunGrabbable.ammoCount > 0)
-                hasAmmo = true;
-            else hasAmmo = false;
-        }
-    }
+    //private void CheckAmmoCount()
+    //{
+    //    gunGrabbable = GetComponentInChildren<GunGrabbable>();
+    //    if (gunGrabbable != null)
+    //    {
+    //        if (gunGrabbable.ammoCount > 0)
+    //            hasAmmo = true;
+    //        else hasAmmo = false;
+    //    }
+    //}
 
 
     public bool CanShoot

@@ -32,10 +32,12 @@ public class GunGrabbable : MonoBehaviour
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip[] pistolShotsClips;
+    public AudioClip empyPistolTriggerClip;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Pickup(Transform holder)
@@ -79,9 +81,13 @@ public class GunGrabbable : MonoBehaviour
 
     public void CheckAmmoCount()
     {
-            if (ammoCount > 0)
-                hasAmmo = true;
-            else hasAmmo = false;
+        if (ammoCount > 0)
+            hasAmmo = true;
+        else 
+        {
+            hasAmmo = false;
+            audioSource.PlayOneShot(empyPistolTriggerClip);
+        } 
     }
 
     void FindChildTransformWithName(Transform parentTransform, string targetName)
@@ -92,7 +98,6 @@ public class GunGrabbable : MonoBehaviour
 
             if (childTransform.name == targetName)
             {
-                Debug.Log("Transform : " + childTransform.name);
                 pistolTransform = childTransform;
             }
 

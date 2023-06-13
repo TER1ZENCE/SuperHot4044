@@ -1762,12 +1762,14 @@ MonoBehaviour:
   currentHolder: {fileID: 0}
   ammoCount: 7
   hasAmmo: 0
-  audioSource: {fileID: 134700723}
+  audioSource: {fileID: 0}
   pistolShotsClips:
   - {fileID: 8300000, guid: a873eca5935593741af1b4be07351cd6, type: 3}
   - {fileID: 8300000, guid: f8961ea2afe2e944c9c79f7c54748f1d, type: 3}
   - {fileID: 8300000, guid: 0b7a0749ca1e4e74a85c1b7019c25d6e, type: 3}
   - {fileID: 8300000, guid: 93333514a99c8d740a7cbe9741a10121, type: 3}
+  empyPistolTriggerClip: {fileID: 8300000, guid: 7d2ff99208fcffc4eb6c96bc1307b7ff,
+    type: 3}
 --- !u!65 &620450808
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3018,6 +3020,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9161679808895137075, guid: 8a44bf09fc900c048a434d8e0d1d63de,
+        type: 3}
+      propertyPath: emptyPistolTrigger
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d2ff99208fcffc4eb6c96bc1307b7ff, type: 3}
+    - target: {fileID: 9161679808895137075, guid: 8a44bf09fc900c048a434d8e0d1d63de,
+        type: 3}
+      propertyPath: empyPistolTriggerClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d2ff99208fcffc4eb6c96bc1307b7ff, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a44bf09fc900c048a434d8e0d1d63de, type: 3}
 --- !u!1 &874917963
@@ -3163,6 +3175,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!82 &918543527 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 918543527, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 7286037288865454404}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &919356375
 GameObject:
   m_ObjectHideFlags: 0
@@ -3464,12 +3482,14 @@ MonoBehaviour:
   currentHolder: {fileID: 0}
   ammoCount: 7
   hasAmmo: 0
-  audioSource: {fileID: 134700723}
+  audioSource: {fileID: 0}
   pistolShotsClips:
   - {fileID: 8300000, guid: a873eca5935593741af1b4be07351cd6, type: 3}
   - {fileID: 8300000, guid: f8961ea2afe2e944c9c79f7c54748f1d, type: 3}
   - {fileID: 8300000, guid: 0b7a0749ca1e4e74a85c1b7019c25d6e, type: 3}
   - {fileID: 8300000, guid: 93333514a99c8d740a7cbe9741a10121, type: 3}
+  empyPistolTriggerClip: {fileID: 8300000, guid: 7d2ff99208fcffc4eb6c96bc1307b7ff,
+    type: 3}
 --- !u!65 &1050868051
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5767,9 +5787,9 @@ GameObject:
   - component: {fileID: 1895089724}
   - component: {fileID: 1895089723}
   - component: {fileID: 1895089722}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Footsteps/CONCRETE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -6967,10 +6987,79 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 918543527, guid: 99b4e69052ae2a7478a8ddcb0e0451eb, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 918543528, guid: 99b4e69052ae2a7478a8ddcb0e0451eb, type: 3}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: groundTypeChecker
+      value: 
+      objectReference: {fileID: 1301742662985011830}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: footstepAudioSource
+      value: 
+      objectReference: {fileID: 918543527}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: crouchStepMultiplier
+      value: 1.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: footstepClips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: footstepClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: f0dcf821014889d41913cf94813d4ba9, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: footstepClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 68d91fe74a2106345b616c3620758a6f, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: footstepClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3d86f7a4d957f444fa33e8a0131bd6f5, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: concreteStepsClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1d8a5e6d22cd5af48b3cefd36a64b083, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: concreteStepsClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: e1e3c05f8b95e4d46a5269a812adeca5, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: concreteStepsClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: c87a8a7d068171f40835987167259623, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: concreteStepsClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0fe77ef5ead97124da0abe8c96152936, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: concreteStepsClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: f1227c1cd28f53347b238b820b11f062, type: 3}
+    - target: {fileID: 282130996228786086, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
+        type: 3}
+      propertyPath: concreteStepsClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: a80b0ad93bc191547b115a5f55a69294, type: 3}
     - target: {fileID: 315513487113400148, guid: 99b4e69052ae2a7478a8ddcb0e0451eb,
         type: 3}
       propertyPath: m_RootOrder
@@ -7110,11 +7199,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3081804853293106699, guid: 6726f826bb439d44e96c613f8eeca29e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6901637623391759710, guid: 6726f826bb439d44e96c613f8eeca29e,
         type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 134700723}
+    - target: {fileID: 6901637623391759710, guid: 6726f826bb439d44e96c613f8eeca29e,
+        type: 3}
+      propertyPath: empyPistolTriggerClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d2ff99208fcffc4eb6c96bc1307b7ff, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6726f826bb439d44e96c613f8eeca29e, type: 3}
 --- !u!1001 &9157128055479236575
@@ -7127,13 +7226,18 @@ PrefabInstance:
     - target: {fileID: 9157128055891762204, guid: a7dbec6c0febc364089cff325778ef08,
         type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9157128055891762204, guid: a7dbec6c0febc364089cff325778ef08,
         type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 48348f6c5baca1b4099bc5ec2e57e2b2, type: 3}
+    - target: {fileID: 9157128055891762206, guid: a7dbec6c0febc364089cff325778ef08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9157128056560641538, guid: a7dbec6c0febc364089cff325778ef08,
         type: 3}
       propertyPath: m_RootOrder
