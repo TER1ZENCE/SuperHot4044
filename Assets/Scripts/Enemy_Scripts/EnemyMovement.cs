@@ -20,8 +20,11 @@ public class EnemyMovement : MonoBehaviour
     [Header("Enemy Rotate To Player Speed")]
     [Space(5)]
     [SerializeField] private float rotationSpeed;
+    public bool lookAtPlayer;
+    public float maxAngle = 30f;
 
-    private float walkBlendTreePrameter; 
+    private float walkBlendTreePrameter;
+
 
     private void Start()
     {
@@ -54,6 +57,12 @@ public class EnemyMovement : MonoBehaviour
     {
         float targetDistance = Vector3.Distance(transform.position, target.position);
 
+        Vector3 directionToPlayer = target.position - transform.position;
+        directionToPlayer.y = 0f;
+        Vector3 forwardDirection = transform.forward;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+        float angle = Vector3.Angle(directionToPlayer, forwardDirection);
+
         if (targetDistance > stopDistance)
         {
             agent.isStopped = false;
@@ -64,13 +73,16 @@ public class EnemyMovement : MonoBehaviour
             agent.isStopped = true;
 
             //Turn to the player
-            Vector3 direction = target.position - transform.position;
-            direction.y = 0f;
 
-            if (direction != Vector3.zero)
+
+            if (directionToPlayer != Vector3.zero)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+                if (angle < maxAngle && fov.seesAPlayer)
+                    lookAtPlayer = true;
+                else
+                    lookAtPlayer = false;
             }
         }
     }

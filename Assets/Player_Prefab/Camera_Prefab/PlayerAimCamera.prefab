@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4747327873939614626}
   - component: {fileID: 4747327873939614627}
   - component: {fileID: 4747327873939614624}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4747327873975395680}
   - component: {fileID: 4747327873975395681}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerAimCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}

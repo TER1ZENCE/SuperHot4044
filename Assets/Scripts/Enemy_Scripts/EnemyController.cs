@@ -61,6 +61,7 @@ public class EnemyController : MonoBehaviour
         hasAGun = false;
         GetComponent<FieldOfView>().enabled = false;
         GetComponent<Animator>().enabled = false;
+        GetComponent<EnemyShooterController>().enabled = false;
         ragdollManager.SetRigidbodyState(false, isDeath);
         ragdollManager.SetCollidersState(true);
         Destroy(gameObject, 10f);

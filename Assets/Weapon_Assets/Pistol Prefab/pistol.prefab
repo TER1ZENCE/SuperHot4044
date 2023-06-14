@@ -144,6 +144,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f8961ea2afe2e944c9c79f7c54748f1d, type: 3}
   - {fileID: 8300000, guid: 0b7a0749ca1e4e74a85c1b7019c25d6e, type: 3}
   - {fileID: 8300000, guid: 93333514a99c8d740a7cbe9741a10121, type: 3}
+  empyPistolTriggerClip: {fileID: 8300000, guid: 7d2ff99208fcffc4eb6c96bc1307b7ff,
+    type: 3}
 --- !u!82 &134700723
 AudioSource:
   m_ObjectHideFlags: 0
@@ -156,7 +158,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

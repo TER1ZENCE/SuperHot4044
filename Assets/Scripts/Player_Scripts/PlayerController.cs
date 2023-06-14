@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +22,13 @@ public class PlayerController : MonoBehaviour
     public AudioSource playerAudioSource;
     public AudioClip playerDeathClip;
 
+    [Space(10)]
+    [Header("Load To Main Menu")]
+    public float fadeDuration = 5f;
+
+    private bool isDead = false;
+    [SerializeField]private CanvasGroup canvasGroup;
+
     private void Start()
     {
         ragdollManager = GetComponent<RagdollManager>();
@@ -28,6 +36,7 @@ public class PlayerController : MonoBehaviour
         ragdollManager.SetCharacterControllerState(false);
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
         pickUpDrop = GetComponent<PickUpDrop>();
+        canvasGroup.alpha = 0f;    
     }
 
     public void PlayerDie()
@@ -46,6 +55,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<ThirdPersonShooterController>().enabled = false;
         GetComponent<CharacterController>().enabled = false;
         GetComponent<PickUpDrop>().enabled = false;
+        StartCoroutine(FadeOutAndLoadMainMenu());
     }
 
     private void CheckForWeapons()
@@ -60,6 +70,19 @@ public class PlayerController : MonoBehaviour
         {
             thirdPersonShooterController.hasAGun = false;
         }
+    }
+
+    private IEnumerator FadeOutAndLoadMainMenu()
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < fadeDuration)
+        {
+            float t = (Time.time - startTime) / fadeDuration;
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, t);
+            yield return null;
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }

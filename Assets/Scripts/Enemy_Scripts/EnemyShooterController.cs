@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyShooterController : MonoBehaviour
 {
@@ -10,9 +11,11 @@ public class EnemyShooterController : MonoBehaviour
     [Space(5)]
     [SerializeField] private GunGrabbable gunGrabbable;
     [SerializeField] private EnemyController enemyController;
+    [SerializeField] private EnemyMovement enemyMovement;
     [SerializeField] private GameObject player;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private FieldOfView fieldOfView;
+    [SerializeField] private NavMeshAgent agent;
 
     [Header("Shoot Delay")]
     [Space(5)]
@@ -27,23 +30,28 @@ public class EnemyShooterController : MonoBehaviour
     {
         enemyController = GetComponent<EnemyController>();      
         fieldOfView = GetComponent<FieldOfView>();
+        agent = GetComponent<NavMeshAgent>();
+        enemyMovement = GetComponent<EnemyMovement>();
     }
 
     private void Update()
     {
-        CheckShootState();
-
-        if (canShoot)
+        if (Time.time - lastShootTime >= enemyShootDelay)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            playerController = player.GetComponent<PlayerController>();
-
-            if (!playerController.isDeath)
+            CheckShootState();
+            if (canShoot)
             {
-                Vector3 directionToTarget = player.transform.position + new Vector3(0, 1.3f, 0);
-                gunGrabbable.Shoot(directionToTarget);
-                lastShootTime = Time.time;
+                player = GameObject.FindGameObjectWithTag("Player");
+                playerController = player.GetComponent<PlayerController>();
+
+                if (!playerController.isDeath)
+                {
+                    Vector3 directionToTarget = player.transform.position + new Vector3(0, 1.3f, 0);
+                    gunGrabbable.Shoot(directionToTarget);
+                    lastShootTime = Time.time;
+                }
             }
+            lastShootTime = Time.time;  
         }
     }
 
@@ -55,7 +63,7 @@ public class EnemyShooterController : MonoBehaviour
         {
             gunGrabbable.CheckAmmoCount();
 
-            if (enemyController.hasAGun && gunGrabbable.hasAmmo && fieldOfView.isInAimState && Time.time - lastShootTime >= enemyShootDelay)
+            if (enemyController.hasAGun && gunGrabbable.hasAmmo && fieldOfView.isInAimState && agent.isStopped && enemyMovement.lookAtPlayer)
                 EnableShooting();
             else
                 DisableShooting();

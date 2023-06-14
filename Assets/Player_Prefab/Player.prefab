@@ -424,15 +424,16 @@ MonoBehaviour:
   LookSensitivity: 6
   footStepsAudioSource: {fileID: 918543527}
   concreteStepsClips:
-  - {fileID: 8300000, guid: f0dcf821014889d41913cf94813d4ba9, type: 3}
-  - {fileID: 8300000, guid: 68d91fe74a2106345b616c3620758a6f, type: 3}
-  - {fileID: 8300000, guid: 3d86f7a4d957f444fa33e8a0131bd6f5, type: 3}
-  - {fileID: 8300000, guid: 15022ab454a9ee544b8463ed06d0b722, type: 3}
-  - {fileID: 8300000, guid: 6e5e5a91d51196d42a1b51b16f314f0e, type: 3}
-  - {fileID: 8300000, guid: 201c4728634efba4c92792cd9f109139, type: 3}
+  - {fileID: 8300000, guid: 1d8a5e6d22cd5af48b3cefd36a64b083, type: 3}
+  - {fileID: 8300000, guid: e1e3c05f8b95e4d46a5269a812adeca5, type: 3}
+  - {fileID: 8300000, guid: c87a8a7d068171f40835987167259623, type: 3}
+  - {fileID: 8300000, guid: 0fe77ef5ead97124da0abe8c96152936, type: 3}
+  - {fileID: 8300000, guid: f1227c1cd28f53347b238b820b11f062, type: 3}
+  - {fileID: 8300000, guid: a80b0ad93bc191547b115a5f55a69294, type: 3}
   baseStepSpeed: 0.5
-  crouchStepMultiplier: 0.6
+  crouchStepMultiplier: 1.05
   sprintStepMultiplier: 0.6
+  groundTypeChecker: {fileID: 800789022}
 --- !u!114 &92720242787514347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +516,7 @@ MonoBehaviour:
   pistolPositionTransform: {fileID: 7286037288782506892}
   pickupAudioSource: {fileID: 918543528}
   pistolPickupClip: {fileID: 8300000, guid: d59ec6660cd66464f955228635358efa, type: 3}
+  pistolDropClip: {fileID: 8300000, guid: 4bddb16a53adab94abaeb392b298ba7c, type: 3}
 --- !u!114 &4007628912702761367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -602,7 +604,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -698,7 +700,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

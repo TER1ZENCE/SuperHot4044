@@ -78,12 +78,14 @@ public class FieldOfView : MonoBehaviour
                 seesAPlayer = false;
                 enemyPatrol.canPatroling = true;
                 isInAimState = false;
+                enemyMovement.lookAtPlayer = false;
             }
         }
         else if (seesAPlayer)
         {
             enemyMovement.AttackTarget(playerRef.transform);
             waitBeforeLosingTarget = true;
+            enemyMovement.lookAtPlayer = false;
             if (waitBeforeLosingTarget)
                 StartCoroutine(WaitBeforeLosing());
         }
@@ -92,8 +94,8 @@ public class FieldOfView : MonoBehaviour
 
     private IEnumerator WaitBeforeLosing()
     {
-        yield return new WaitForSeconds(5f);
         seesAPlayer = false;
+        yield return new WaitForSeconds(5f);
         waitBeforeLosingTarget = false;
         enemyPatrol.canPatroling = true;
         isInAimState = false;
