@@ -18,6 +18,11 @@ public class VolumeSaveController : MonoBehaviour
         LoadValues();
     }
 
+    public void SetVolume(float volume)
+    {
+        AudioListener.volume = volume;
+    }
+
     public void LoadValues()
     {
         float volumeValue = PlayerPrefs.GetFloat("VolumeValue");
