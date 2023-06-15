@@ -1012,7 +1012,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.36
+  m_Radius: 0.24
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -1073,9 +1073,10 @@ MonoBehaviour:
   agent: {fileID: 0}
   animator: {fileID: 0}
   fov: {fileID: 0}
-  stopDistance: 15
+  stopDistance: 10
   rotationSpeed: 20
   lookAtPlayer: 0
+  maxAngle: 30
 --- !u!114 &2369836667273246771
 MonoBehaviour:
   m_ObjectHideFlags: 0

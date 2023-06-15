@@ -53,7 +53,7 @@ public class FieldOfView : MonoBehaviour
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                if (!Physics.Raycast(transform.position + new Vector3(0,1,0), directionToTarget + new Vector3(0, 1, 0), distanceToTarget, obstructionMask))
                 {
                     animator.SetLayerWeight(aimingLayerIndex, Mathf.Lerp(animator.GetLayerWeight(aimingLayerIndex), 1f, Time.deltaTime * 10f));
                     animator.SetLayerWeight(baseMovementLayerIndex, Mathf.Lerp(animator.GetLayerWeight(baseMovementLayerIndex), 0f, Time.deltaTime * 1f));

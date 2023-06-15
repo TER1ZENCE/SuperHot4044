@@ -13,8 +13,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform EnemyManager;
     [SerializeField]
     private GameObject enemy;
-    [SerializeField]
-    private int enemyCount;
+    public int enemyCount;
     [SerializeField]
     public int maxEnemyCount;
 
@@ -23,8 +22,15 @@ public class EnemySpawner : MonoBehaviour
         spawnPositions = new List<Transform>(maxEnemyCount);
         unusedSpawnPositions = new List<Transform>(spawnPositions);
         GetSpawners();
+        EnemyDeathEvent.EnemyDied += OnEnemyDied;
         StartCoroutine(SpawnEnemies());
     }
+
+    private void OnDestroy()
+    {
+        EnemyDeathEvent.EnemyDied -= OnEnemyDied;
+    }
+
     public void GetSpawners()
     {
         foreach (Transform child in transform)
@@ -47,5 +53,8 @@ public class EnemySpawner : MonoBehaviour
         }
         yield return null;
     }
-
+    private void OnEnemyDied()
+    {
+        enemyCount--;
+    }
 }

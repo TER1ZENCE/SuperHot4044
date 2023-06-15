@@ -510,7 +510,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   pickupDistance: 6
-  playerThrowForce: 5
+  playerThrowForce: 10
   gunGrabbable: {fileID: 0}
   thirdPersonShooterController: {fileID: 0}
   pistolPositionTransform: {fileID: 7286037288782506892}
@@ -533,6 +533,7 @@ MonoBehaviour:
   thirdPersonShooterController: {fileID: 0}
   pickUpDrop: {fileID: 0}
   ragdollManager: {fileID: 0}
+  uiManager: {fileID: 0}
   isDeath: 0
   playerAudioSource: {fileID: 918543529}
   playerDeathClip: {fileID: 8300000, guid: b0e5440753b1b164f8bca5edd24db839, type: 3}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -34,13 +35,15 @@ public class EnemyController : MonoBehaviour
 
         CheckForWeapons();
 
-        agent = GetComponent<NavMeshAgent>();
         ragdollManager.SetRigidbodyState(true, isDeath);
         ragdollManager.SetCollidersState(false);
 
         if (gunGrabbable != null)
             gunGrabbable.Pickup(this.transform);
     }
+
+
+
     public void Die()
     {
         isDeath = true;
@@ -56,7 +59,7 @@ public class EnemyController : MonoBehaviour
             gunGrabbable.Drop(Camera.main.transform.position - gunGrabbable.transform.position,enemyThrowForce);
         }
 
-        enemyAudioSource.PlayOneShot(enemyDeathClips[Random.Range(0, enemyDeathClips.Length - 1)]);
+        enemyAudioSource.PlayOneShot(enemyDeathClips[UnityEngine.Random.Range(0, enemyDeathClips.Length - 1)]);
 
         hasAGun = false;
         GetComponent<FieldOfView>().enabled = false;
@@ -64,6 +67,7 @@ public class EnemyController : MonoBehaviour
         GetComponent<EnemyShooterController>().enabled = false;
         ragdollManager.SetRigidbodyState(false, isDeath);
         ragdollManager.SetCollidersState(true);
+        EnemyDeathEvent.OnEnemyDied();
         Destroy(gameObject, 10f);
     }
 

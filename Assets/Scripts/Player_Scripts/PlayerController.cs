@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ThirdPersonShooterController thirdPersonShooterController;
     [SerializeField] PickUpDrop pickUpDrop;
     [SerializeField] RagdollManager ragdollManager;
+    [SerializeField] UIManager uiManager;
+
 
     [Header("IsDeath?")]
     [Space(5)]
@@ -22,21 +24,13 @@ public class PlayerController : MonoBehaviour
     public AudioSource playerAudioSource;
     public AudioClip playerDeathClip;
 
-    [Space(10)]
-    [Header("Load To Main Menu")]
-    public float fadeDuration = 5f;
-
-    private bool isDead = false;
-    [SerializeField]private CanvasGroup canvasGroup;
-
     private void Start()
     {
         ragdollManager = GetComponent<RagdollManager>();
         ragdollManager.SetRigidbodyState(true, isDeath);
         ragdollManager.SetCharacterControllerState(false);
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
-        pickUpDrop = GetComponent<PickUpDrop>();
-        canvasGroup.alpha = 0f;    
+        pickUpDrop = GetComponent<PickUpDrop>(); 
     }
 
     public void PlayerDie()
@@ -55,7 +49,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<ThirdPersonShooterController>().enabled = false;
         GetComponent<CharacterController>().enabled = false;
         GetComponent<PickUpDrop>().enabled = false;
-        StartCoroutine(FadeOutAndLoadMainMenu());
+        StartCoroutine(uiManager.FadeInAndLoadCurrentScene());
     }
 
     private void CheckForWeapons()
@@ -72,17 +66,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeOutAndLoadMainMenu()
-    {
-        float startTime = Time.time;
-        while (Time.time - startTime < fadeDuration)
-        {
-            float t = (Time.time - startTime) / fadeDuration;
-            canvasGroup.alpha = Mathf.Lerp(0f, 1f, t);
-            yield return null;
-        }
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 
 }
