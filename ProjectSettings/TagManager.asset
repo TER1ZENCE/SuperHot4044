@@ -3,17 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CinemachineTarget
+  - Footsteps/CONCRETE
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Gun
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Target
+  - Obstruction
+  - Ground
   - 
   - 
   - 
