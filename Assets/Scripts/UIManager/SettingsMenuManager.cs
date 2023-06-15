@@ -5,6 +5,6 @@ using UnityEngine.Audio;
 
 public class SettingsMenuManager : MonoBehaviour
 {
-    public AudioMixer audioMixer;
+
 
 }
