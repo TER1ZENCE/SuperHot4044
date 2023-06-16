@@ -3,7 +3,6 @@ using StarterAssets;
 using System.Collections;
 using Unity.VisualScripting.FullSerializer.Internal;
 using UnityEngine;
-using UnityEngine.WSA;
 
 
 public class GunGrabbable : MonoBehaviour

@@ -21,8 +21,10 @@ public class MenuManager : MonoBehaviour
 
     IEnumerator LoadAsynchronously(string sceneName)
     {
-        loadingScreen.SetActive(true);
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        loadingScreen.SetActive(true);
 
         while (!operation.isDone)
         {
